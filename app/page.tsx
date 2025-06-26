@@ -40,6 +40,9 @@ export default function HomePage() {
             <Link href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
               Pricing
             </Link>
+            <Link href="/ai-demo" className="text-emerald-600 hover:text-emerald-700 transition-colors font-medium">
+              Try AI Demo
+            </Link>
             <Button variant="outline" size="sm">
               Sign In
             </Button>
@@ -70,8 +73,8 @@ export default function HomePage() {
             <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-lg px-8 py-3">
               Start Free Trial
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-3 bg-transparent">
-              Watch Demo
+            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-3 bg-transparent">
+              <Link href="/ai-demo">Try AI Demo</Link>
             </Button>
           </div>
           <p className="text-sm text-gray-500 mt-4">Free tier available • No credit card required</p>
