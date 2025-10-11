@@ -43,8 +43,14 @@ Core AWS Services
 
 ## V. Backend Architecture
 - **Tech Stack:** Node.js + NestJS
-- **Modules:** `ai`, `messaging`, `crm`, `funnels`
+- **Modules:** `ai`, `messaging`, `crm`, `funnels`, `auth`
 - **Design Patterns:** CQRS, Circuit Breaker, Cache-Aside
+
+### Authentication
+The backend uses AWS Cognito for user authentication. The following endpoints are available:
+- `POST /auth/register`: Register a new user.
+- `POST /auth/login`: Log in a user and receive a JWT.
+- `GET /auth/profile`: Get the profile of the currently logged-in user (requires JWT).
 
 ## VI. AI/ML Layer
 | Component | AWS Service | Function |

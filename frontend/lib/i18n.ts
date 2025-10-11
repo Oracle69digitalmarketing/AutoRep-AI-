@@ -17,6 +17,8 @@ i18n
           home: 'Home',
           funnelBuilder: 'Funnel Builder',
           chat: 'Chat',
+          login: 'Login',
+          register: 'Register',
         }
       },
       'en-NG': {
@@ -24,6 +26,8 @@ i18n
           home: 'Home',
           funnelBuilder: 'Funnel Builder',
           chat: 'Chat',
+          login: 'Login',
+          register: 'Register',
         }
       }
     }
