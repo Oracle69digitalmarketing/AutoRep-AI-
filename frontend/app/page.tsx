@@ -12,7 +12,7 @@ export default function Page() {
     setLoading(true);
     try {
       const backend = process.env.NEXT_PUBLIC_BACKEND_URL || '/api/proxy';
-      const res = await axios.post(`${backend}/reports`, { title, content });
+      const res = await axios.post(`${backend}/ai`, { title, content });
       setResult(res.data);
     } catch (err: any) {
       setResult({ error: err.toString() });
@@ -23,7 +23,7 @@ export default function Page() {
 
   return (
     <main style={{ padding: 24, fontFamily: 'Inter, system-ui' }}>
-      <h1>AutoRep AI — Demo</h1>
+      <h1>AutoRep AI 2.1 — AWS-First Demo</h1>
       <p>Paste lead batch notes and click Generate</p>
       <textarea rows={6} value={content} onChange={e => setContent(e.target.value)} style={{ width: '100%' }} />
       <div style={{ marginTop: 12 }}>

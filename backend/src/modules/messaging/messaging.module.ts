@@ -1,10 +1,11 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { MessagingController } from './messaging.controller';
 import { MessagingService } from './messaging.service';
-import { ReportsModule } from '../reports/reports.module';
+import { AiModule } from '../ai/ai.module';
+import { SqsModule } from '../../infra/sqs.module';
 
 @Module({
-  imports: [forwardRef(() => ReportsModule)],
+  imports: [forwardRef(() => AiModule), SqsModule],
   controllers: [MessagingController],
   providers: [MessagingService],
   exports: [MessagingService]
