@@ -69,6 +69,24 @@ npm install
 npm run start:dev
 ```
 
+## VIII. Deployment
+### Backend (Serverless)
+To deploy the backend to AWS Lambda, use the Serverless Framework:
+```
+cd backend
+npm run deploy
+```
+
+### Frontend (S3/CloudFront)
+To deploy the frontend to S3 and CloudFront:
+1.  Make sure the `S3_BUCKET_NAME` environment variable is set.
+2.  Run the deployment script:
+```
+cd frontend
+./deploy.sh
+```
+3.  Manually create a CloudFront distribution and point it to the S3 bucket.
+
 ### AWS Env Variables:
 ```
 AWS_REGION=us-east-1

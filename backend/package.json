@@ -5,6 +5,8 @@
     "start": "node dist/main.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc -p tsconfig.json",
+    "build:serverless": "tsc -p tsconfig.serverless.json",
+    "deploy": "sls deploy",
     "queue:dev": "ts-node-dev --respawn src/infra/sqs.worker.ts"
   },
   "dependencies": {
@@ -26,8 +28,12 @@
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.119",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.0.0",
+    "aws-serverless-express": "^3.4.0",
+    "serverless-offline": "^12.0.4",
+    "serverless-plugin-typescript": "^2.1.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   }
