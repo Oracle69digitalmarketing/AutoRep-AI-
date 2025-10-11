@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
 import { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } from '@aws-sdk/client-sqs';
 import { AiService } from '../modules/ai/ai.service';
+import { ChatGateway } from '../modules/messaging/chat.gateway';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -12,6 +13,7 @@ const sqsClient = new SQSClient({ region: process.env.AWS_REGION });
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
   const aiService = app.get(AiService);
+  const chatGateway = app.get(ChatGateway);
 
   console.log('SQS worker started, polling...');
   while (true) {
@@ -30,7 +32,13 @@ async function bootstrap() {
 
         const { originationNumber, messageBody } = payload;
         const dto = { title: `Lead ${originationNumber}`, content: messageBody };
-        await aiService.generateReport(dto);
+        const aiResponse = await aiService.generateReport(dto);
+
+        chatGateway.server.emit('receiveMessage', {
+          sender: 'ai',
+          text: aiResponse.aiSummary,
+          leadId: originationNumber,
+        });
 
         const deleteCommand = new DeleteMessageCommand({
           QueueUrl: queueUrl,
