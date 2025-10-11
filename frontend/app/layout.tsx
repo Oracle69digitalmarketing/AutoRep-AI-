@@ -29,6 +29,7 @@ const Navigation = () => {
         <Link href="/" style={{ marginRight: '20px' }}>{t('home')}</Link>
         <Link href="/funnel-builder" style={{ marginRight: '20px' }}>{t('funnelBuilder')}</Link>
         <Link href="/chat" style={{ marginRight: '20px' }}>{t('chat')}</Link>
+        <Link href="/commissions" style={{ marginRight: '20px' }}>{t('commissions')}</Link>
       </div>
       <div>
         <Link href="/login" style={{ marginRight: '20px' }}>{t('login')}</Link>

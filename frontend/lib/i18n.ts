@@ -19,6 +19,7 @@ i18n
           chat: 'Chat',
           login: 'Login',
           register: 'Register',
+          commissions: 'Commissions',
         }
       },
       'en-NG': {
@@ -28,6 +29,7 @@ i18n
           chat: 'Chat',
           login: 'Login',
           register: 'Register',
+          commissions: 'Commissions',
         }
       }
     }
