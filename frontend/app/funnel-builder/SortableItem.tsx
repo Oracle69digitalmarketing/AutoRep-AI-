@@ -22,7 +22,19 @@ export function SortableItem(props) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {props.id}
+      <div>
+        <strong>{props.item.type}</strong>
+        <button onClick={() => props.deleteItem(props.id)} style={{ float: 'right' }}>Delete</button>
+      </div>
+      {props.item.type === 'send-message' && (
+        <input
+          type="text"
+          value={props.item.message}
+          onChange={(e) => props.updateItemMessage(props.id, e.target.value)}
+          placeholder="Enter message"
+          style={{ marginTop: '5px', width: '100%' }}
+        />
+      )}
     </div>
   );
 }
