@@ -1,20 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ReportsModule } from './modules/reports/reports.module';
-import { TasksModule } from './modules/tasks/tasks.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { AiModule } from './modules/ai/ai.module';
 import { MessagingModule } from './modules/messaging/messaging.module';
-import { AppDataSource } from '../ormconfig';
+import { FunnelsModule } from './modules/funnels/funnels.module';
+import { CrmModule } from './modules/crm/crm.module';
 
 @Module({
-  imports: [ReportsModule, TasksModule, AuthModule, MessagingModule],
+  imports: [AiModule, MessagingModule, FunnelsModule, CrmModule],
 })
-export class AppModule {
-  constructor() {
-    AppDataSource.initialize()
-      .then(() => console.log('✅ Database initialized'))
-      .catch((err) => {
-        console.error('DB init error', err);
-        process.exit(1);
-      });
-  }
-}
+export class AppModule {}

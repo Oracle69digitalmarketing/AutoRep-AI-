@@ -5,14 +5,20 @@
     "start": "node dist/main.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc -p tsconfig.json",
-    "queue:dev": "ts-node-dev --respawn src/infra/queue.worker.ts"
+    "build:serverless": "tsc -p tsconfig.serverless.json",
+    "deploy": "sls deploy",
+    "queue:dev": "ts-node-dev --respawn src/infra/sqs.worker.ts"
   },
   "dependencies": {
-    "@google-cloud/aiplatform": "^1.12.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.58.0",
+    "@aws-sdk/client-dynamodb": "^3.58.0",
+    "@aws-sdk/client-pinpoint": "^3.58.0",
+    "@aws-sdk/client-sagemaker-runtime": "^3.58.0",
+    "@aws-sdk/client-s3": "^3.58.0",
+    "@aws-sdk/client-sqs": "^3.58.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
-    "@pinecone-database/pinecone": "^4.1.0",
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
@@ -20,14 +26,15 @@
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0",
-    "sqlite3": "^5.1.6",
-    "twilio": "^4.12.0",
-    "typeorm": "^0.3.12"
+    "rxjs": "^7.8.0"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.119",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.0.0",
+    "aws-serverless-express": "^3.4.0",
+    "serverless-offline": "^12.0.4",
+    "serverless-plugin-typescript": "^2.1.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   }
