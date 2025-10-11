@@ -6,8 +6,5 @@ import { CrmModule } from './modules/crm/crm.module';
 
 @Module({
   imports: [AiModule, MessagingModule, FunnelsModule, CrmModule],
-
-@Module({
-  imports: [AiModule, MessagingModule, FunnelsModule],
 })
 export class AppModule {}
