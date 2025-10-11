@@ -43,6 +43,7 @@ Core AWS Services
 
 ## V. Backend Architecture
 - **Tech Stack:** Node.js + NestJS
+- **Modules:** `ai`, `messaging`, `crm`, `funnels`
 - **Design Patterns:** CQRS, Circuit Breaker, Cache-Aside
 
 ## VI. AI/ML Layer
