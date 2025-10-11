@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -18,14 +18,6 @@ export class S3Service {
       Bucket: this.bucketName,
       Key: key,
       Body: body,
-    });
-    return this.client.send(command);
-  }
-
-  async getObject(key: string) {
-    const command = new GetObjectCommand({
-      Bucket: this.bucketName,
-      Key: key,
     });
     return this.client.send(command);
   }
