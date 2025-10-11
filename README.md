@@ -38,7 +38,7 @@ Core AWS Services
 - **Authentication:** Cognito User Pools
 
 ## IV. Frontend Architecture
-- **Tech Stack:** Next.js + PWA + WebSockets + i18next + @dnd-kit
+- **Tech Stack:** Next.js + PWA + WebSockets (with socket.io-client) + i18next + @dnd-kit
 - **State Management:** Zustand (CRM data) + React Query (API calls)
 
 ## V. Backend Architecture
