@@ -7,6 +7,16 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class CrmController {
   constructor(private readonly crmService: CrmService) {}
 
+  @Post('agents')
+  createAgent(@Body() agentData: any) {
+    return this.crmService.createAgent(agentData);
+  }
+
+  @Post('leads/:leadId/assign-agent/:agentId')
+  assignAgentToLead(@Param('leadId') leadId: string, @Param('agentId') agentId: string) {
+    return this.crmService.assignAgentToLead(leadId, agentId);
+  }
+
   @Post('leads/:id/trigger-funnel')
   triggerFunnel(@Param('id') id: string, @Body() body: { funnelId: string }) {
     return this.crmService.triggerFunnel(id, body.funnelId);

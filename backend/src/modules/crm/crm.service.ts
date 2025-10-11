@@ -11,6 +11,17 @@ export class CrmService {
     private readonly funnelExecutionService: FunnelExecutionService,
   ) {}
 
+  async createAgent(agentData: any) {
+    const agentId = randomUUID();
+    const item = {
+      PK: { S: `AGENT#${agentId}` },
+      SK: { S: `AGENT#${agentId}` },
+      ...this.mapToDynamoDB(agentData),
+    };
+    await this.dynamodbService.putItem(item);
+    return this.mapFromDynamoDB(item);
+  }
+
   async createLead(leadData: any) {
     const leadId = randomUUID();
     const item = {
@@ -72,5 +83,12 @@ export class CrmService {
   async triggerFunnel(leadId: string, funnelId: string) {
     await this.funnelExecutionService.executeFunnel(funnelId, leadId);
     return { status: 'triggered' };
+  }
+
+  async assignAgentToLead(leadId: string, agentId: string) {
+    const key = { PK: { S: `LEAD#${leadId}` }, SK: { S: `LEAD#${leadId}` } };
+    const { updateExpression, expressionAttributeValues } = this.buildUpdateExpressions({ agentId });
+    const { Attributes } = await this.dynamodbService.updateItem(key, updateExpression, expressionAttributeValues);
+    return this.mapFromDynamoDB(Attributes);
   }
 }

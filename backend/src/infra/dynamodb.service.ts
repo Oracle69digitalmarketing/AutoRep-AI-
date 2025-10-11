@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DynamoDBClient, PutItemCommand, GetItemCommand, UpdateItemCommand, DeleteItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand, GetItemCommand, UpdateItemCommand, DeleteItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -44,6 +44,15 @@ export class DynamodbService {
     const command = new DeleteItemCommand({
       TableName: this.tableName,
       Key: key,
+    });
+    return this.client.send(command);
+  }
+
+  async query(keyConditionExpression: string, expressionAttributeValues: any) {
+    const command = new QueryCommand({
+      TableName: this.tableName,
+      KeyConditionExpression: keyConditionExpression,
+      ExpressionAttributeValues: expressionAttributeValues,
     });
     return this.client.send(command);
   }

@@ -43,8 +43,13 @@ Core AWS Services
 
 ## V. Backend Architecture
 - **Tech Stack:** Node.js + NestJS
-- **Modules:** `ai`, `messaging`, `crm`, `funnels`, `auth`
+- **Modules:** `ai`, `messaging`, `crm`, `funnels`, `auth`, `commissions`
 - **Design Patterns:** CQRS, Circuit Breaker, Cache-Aside
+
+### Commissions
+The backend provides endpoints for managing commissions:
+- `POST /commissions/sales`: Record a new sale for an agent.
+- `GET /commissions/agents/:agentId`: Get all commissions for a specific agent.
 
 ### Authentication
 The backend uses AWS Cognito for user authentication. The following endpoints are available:
