@@ -22,6 +22,12 @@ functions:
       - http:
           method: any
           path: /{proxy+}
+  sqsWorker:
+    handler: dist/worker.handler
+    events:
+      - sqs:
+          arn: ${env:SQS_QUEUE_ARN}
+          batchSize: 10
 
 plugins:
   - serverless-offline
