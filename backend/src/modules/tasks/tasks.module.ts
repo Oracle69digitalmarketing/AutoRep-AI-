@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TasksController } from './tasks.controller';
-import { TasksService } from './tasks.service';
+import { SqsConsumerService } from './sqs-consumer.service';
+import { AiModule } from '../ai/ai.module';
+import { MessagingModule } from '../messaging/messaging.module';
 
 @Module({
-  controllers: [TasksController],
-  providers: [TasksService],
+  imports: [AiModule, MessagingModule],
+  providers: [SqsConsumerService],
+  exports: [SqsConsumerService],
 })
 export class TasksModule {}

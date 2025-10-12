@@ -6,6 +6,7 @@
   },
   "include": [
     "src/lambda.ts",
+    "src/worker.ts",
     "src/**/*"
   ]
 }
