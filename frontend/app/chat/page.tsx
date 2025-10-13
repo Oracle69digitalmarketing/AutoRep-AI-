@@ -3,8 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { socket } from '../../lib/socket';
 
+interface Message {
+  id: number;
+  text: string;
+  sender: string;
+}
+
 const ChatPage = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
@@ -29,7 +35,7 @@ const ChatPage = () => {
     <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)' }}>
       <h1>Chat Interface</h1>
       <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px', overflowY: 'auto', marginBottom: '10px' }}>
-        {messages.map((message: any, index: number) => (
+        {messages.map((message: Message, index: number) => (
           <div key={index} style={{ textAlign: message.sender === 'me' ? 'right' : 'left', marginBottom: '10px' }}>
             <div style={{
               display: 'inline-block',

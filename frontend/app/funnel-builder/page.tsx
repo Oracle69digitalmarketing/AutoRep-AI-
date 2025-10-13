@@ -11,8 +11,14 @@ import { Draggable } from './Draggable';
 import { SortableItem } from './SortableItem';
 import { randomUUID } from 'crypto';
 
+interface Item {
+  id: string;
+  type: any;
+  message: string;
+}
+
 const FunnelBuilderPage = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [jsonOutput, setJsonOutput] = useState('');
 
   function handleDragEnd(event) {

@@ -15,7 +15,7 @@ import { Socket, Server } from 'socket.io';
   },
 })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  @WebSocketServer() server: Server;
+  @WebSocketServer() server!: Server;
   private logger: Logger = new Logger('ChatGateway');
 
   @SubscribeMessage('sendMessage')

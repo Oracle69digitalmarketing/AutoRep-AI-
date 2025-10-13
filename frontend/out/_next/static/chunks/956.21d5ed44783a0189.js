@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[956],{956:(e,l,t)=>{t.r(l),t.d(l,{default:()=>r});var c=t(5155);t(2115);let r=()=>(0,c.jsx)("div",{style:{width:"100%",height:"400px",backgroundColor:"#f0f0f0",border:"1px solid #ccc",display:"flex",justifyContent:"center",alignItems:"center"},children:(0,c.jsx)("p",{children:"Map placeholder"})})}}]);

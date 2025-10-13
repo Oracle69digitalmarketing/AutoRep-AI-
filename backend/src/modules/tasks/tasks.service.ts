@@ -1,20 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { AppDataSource } from '../../../ormconfig';
-import { Task } from '../../entities/task.entity';
+import { DynamodbService } from '../../infra/dynamodb.service';
 import { CreateTaskDto } from '../../common/dto/create-task.dto';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TasksService {
-  private repo = AppDataSource.getRepository(Task);
+  constructor(private readonly dynamodbService: DynamodbService) {}
 
   async createTask(dto: CreateTaskDto) {
-    const t = new Task();
-    t.title = dto.title;
-    t.dueDate = dto.dueDate;
-    return this.repo.save(t);
+    const taskId = randomUUID();
+    const item = {
+      PK: { S: `TASK#${taskId}` },
+      SK: { S: `TASK#${taskId}` },
+      title: { S: dto.title },
+      dueDate: { S: dto.dueDate },
+      createdAt: { S: new Date().toISOString() },
+    };
+    await this.dynamodbService.putItem(item);
+    return { id: taskId, ...dto };
   }
 
   async listTasks() {
-    return this.repo.find({ order: { createdAt: 'DESC' } });
+    // This implementation scans the entire table for tasks, which can be inefficient.
+    // For production use, a secondary index on a "type" attribute would be more performant.
+    const scanParams = {
+      TableName: this.dynamodbService.tableName,
+      FilterExpression: "begins_with(PK, :pk)",
+      ExpressionAttributeValues: {
+        ":pk": { S: "TASK#" },
+      },
+    };
+    const { Items } = await this.dynamodbService.scan(scanParams);
+    return Items ? Items.map((item) => this.dynamodbService.mapFromDynamoDB(item)) : [];
   }
 }

@@ -1,0 +1,7 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/api/proxy/page": "pages/api/proxy/page.js",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}

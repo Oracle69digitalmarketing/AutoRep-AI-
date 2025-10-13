@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST='{"app/agents/page.tsx -> ../components/Map":{"id":956,"files":["static/chunks/956.21d5ed44783a0189.js"]}}';

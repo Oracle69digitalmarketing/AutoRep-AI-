@@ -1,38 +1,12 @@
-service: autorep-ai-backend
-
+service: autorep-backend
 provider:
   name: aws
   runtime: nodejs18.x
-  region: ${opt:region, 'us-east-1'}
-  iam:
-    role:
-      statements:
-        - Effect: "Allow"
-          Action:
-            - "dynamodb:*"
-            - "sqs:*"
-            - "bedrock:InvokeModel"
-            - "sagemaker:InvokeEndpoint"
-          Resource: "*"
-
+  region: us-east-1
 functions:
   main:
-    handler: dist/lambda.handler
+    handler: src/lambda.handler
     events:
       - http:
           method: any
           path: /{proxy+}
-  sqsWorker:
-    handler: dist/worker.handler
-    events:
-      - sqs:
-          arn: ${env:SQS_QUEUE_ARN}
-          batchSize: 10
-
-plugins:
-  - serverless-offline
-  - serverless-plugin-typescript
-
-package:
-  individually: true
-  excludeDevDependencies: true

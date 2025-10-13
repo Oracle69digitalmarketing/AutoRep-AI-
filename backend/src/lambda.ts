@@ -1,28 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Server } from 'http';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as express from 'express';
-import { createServer, proxy } from 'aws-serverless-express';
+import serverlessExpress from '@vendia/serverless-express';
 import { Handler, Context } from 'aws-lambda';
 
-let cachedServer: Server;
+let cachedServer: Handler;
 
-async function bootstrap(): Promise<Server> {
+async function bootstrapServer(): Promise<Handler> {
   if (!cachedServer) {
     const expressApp = express();
-    const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
-    nestApp.enableCors();
-    await nestApp.init();
-    cachedServer = createServer(expressApp, undefined);
+    const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
+    app.enableCors();
+    await app.init();
+    cachedServer = serverlessExpress({ app: expressApp });
   }
   return cachedServer;
 }
 
 export const handler: Handler = async (event: any, context: Context) => {
-  if (event.path === '/api') {
-    event.path = '/';
-  }
-  cachedServer = await bootstrap();
-  return proxy(cachedServer, event, context, 'PROMISE').promise;
+  const server = await bootstrapServer();
+  return server(event, context);
 };

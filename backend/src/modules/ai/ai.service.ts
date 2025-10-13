@@ -16,6 +16,11 @@ import { randomUUID } from 'crypto';
 
 dotenv.config();
 
+interface Lead {
+  role?: string;
+  language?: string;
+}
+
 @Injectable()
 export class AiService {
   private bedrockClient: BedrockRuntimeClient;
@@ -37,7 +42,7 @@ export class AiService {
   }
 
   public async getAiResponse(leadId: string, message: string): Promise<string> {
-    const lead = await this.crmService.getLead(leadId);
+    const lead: Lead | null = await this.crmService.getLead(leadId);
     const prompt = this.createPromptForRoleDetection(message, lead);
     const modelResponse = await this.invokeAiModel(prompt);
     const { role, language, response } = this.parseRoleDetectionResponse(modelResponse);
@@ -55,7 +60,7 @@ export class AiService {
     return response;
   }
 
-  private createPromptForRoleDetection(message: string, lead: any): string {
+  private createPromptForRoleDetection(message: string, lead: Lead | null): string {
     const personaContext = lead ? `
       Current user context:
       - Role: ${lead.role || 'unknown'}
@@ -146,7 +151,7 @@ export class AiService {
 
   async generateReport(dto: CreateReportDto) {
     const prompt = `You are an expert sales coach for field agents. Create a concise title and 5 bullet next steps from this input:\n\n${dto.content}`;
-    const aiResult = await this.getAiResponse(prompt);
+    const aiResult = await this.invokeAiModel(prompt);
 
     const report = {
       id: { S: randomUUID() },

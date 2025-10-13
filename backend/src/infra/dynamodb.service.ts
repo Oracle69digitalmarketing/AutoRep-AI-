@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DynamoDBClient, PutItemCommand, GetItemCommand, UpdateItemCommand, DeleteItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand, GetItemCommand, UpdateItemCommand, DeleteItemCommand, QueryCommand, ScanCommand } from '@aws-sdk/client-dynamodb';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -7,7 +7,7 @@ dotenv.config();
 @Injectable()
 export class DynamodbService {
   private client: DynamoDBClient;
-  private tableName = process.env.DYNAMODB_TABLE;
+  public tableName = process.env.DYNAMODB_TABLE;
 
   constructor() {
     this.client = new DynamoDBClient({ region: process.env.AWS_REGION });
@@ -55,5 +55,29 @@ export class DynamodbService {
       ExpressionAttributeValues: expressionAttributeValues,
     });
     return this.client.send(command);
+  }
+
+  async scan(scanParams: any) {
+    const command = new ScanCommand(scanParams);
+    return this.client.send(command);
+  }
+
+  mapFromDynamoDB(item: any) {
+    if (!item) return null;
+    const data: { [key: string]: any } = {};
+    for (const key in item) {
+      if (item[key].S) {
+        data[key] = item[key].S;
+      } else if (item[key].N) {
+        data[key] = Number(item[key].N);
+      } else if (item[key].BOOL) {
+        data[key] = item[key].BOOL;
+      } else if (item[key].L) {
+        data[key] = item[key].L.map((i: any) => this.mapFromDynamoDB(i));
+      } else if (item[key].M) {
+        data[key] = this.mapFromDynamoDB(item[key].M);
+      }
+    }
+    return data;
   }
 }

@@ -25,6 +25,10 @@ export class MessagingService {
     if (!lead) {
       lead = await this.crmService.createLead({ id: originationNumber, name: originationNumber, phone: originationNumber });
     }
+
+    if (!lead || !lead.id) {
+      throw new Error('Could not create or find lead');
+    }
     await this.crmService.updateLead(lead.id, { lastMessage: messageBody });
 
     console.log(`Queueing message from ${originationNumber}: ${messageBody}`);

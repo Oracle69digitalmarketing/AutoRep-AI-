@@ -53,7 +53,7 @@ export class CrmService {
   }
 
   private mapToDynamoDB(data: any) {
-    const item = {};
+    const item: { [key: string]: any } = {};
     for (const key in data) {
       item[key] = { S: data[key].toString() };
     }
@@ -62,7 +62,7 @@ export class CrmService {
 
   private mapFromDynamoDB(item: any) {
     if (!item) return null;
-    const data = {};
+    const data: { [key: string]: any } = {};
     for (const key in item) {
       data[key] = item[key].S;
     }
@@ -71,7 +71,7 @@ export class CrmService {
 
   private buildUpdateExpressions(data: any) {
     let updateExpression = 'set';
-    const expressionAttributeValues = {};
+    const expressionAttributeValues: { [key: string]: any } = {};
     for (const key in data) {
       updateExpression += ` #${key} = :${key},`;
       expressionAttributeValues[`:${key}`] = { S: data[key].toString() };

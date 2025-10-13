@@ -29,12 +29,15 @@ export class CommissionsService {
       ':sk': { S: 'COMMISSION#' },
     };
     const { Items } = await this.dynamodbService.query(keyConditionExpression, expressionAttributeValues);
+    if (!Items) {
+      return [];
+    }
     return Items.map(this.mapFromDynamoDB);
   }
 
   private mapFromDynamoDB(item: any) {
     if (!item) return null;
-    const data = {};
+    const data: { [key: string]: any } = {};
     for (const key in item) {
       if (item[key].S) {
         data[key] = item[key].S;

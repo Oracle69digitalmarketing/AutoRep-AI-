@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export class CreateReportDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  content: string;
+  content!: string;
 }

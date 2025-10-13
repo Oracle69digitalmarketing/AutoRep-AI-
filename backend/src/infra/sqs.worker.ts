@@ -27,24 +27,26 @@ async function bootstrap() {
 
       if (Messages && Messages.length > 0) {
         const message = Messages[0];
-        const payload = JSON.parse(message.Body);
-        console.log('Processing message:', payload);
+        if (message.Body) {
+          const payload = JSON.parse(message.Body);
+          console.log('Processing message:', payload);
 
-        const { originationNumber, messageBody } = payload;
-        const dto = { title: `Lead ${originationNumber}`, content: messageBody };
-        const aiResponse = await aiService.generateReport(dto);
+          const { originationNumber, messageBody } = payload;
+          const dto = { title: `Lead ${originationNumber}`, content: messageBody };
+          const aiResponse = await aiService.generateReport(dto);
 
-        chatGateway.server.emit('receiveMessage', {
-          sender: 'ai',
-          text: aiResponse.aiSummary,
-          leadId: originationNumber,
-        });
+          chatGateway.server.emit('receiveMessage', {
+            sender: 'ai',
+            text: aiResponse.aiSummary,
+            leadId: originationNumber,
+          });
 
-        const deleteCommand = new DeleteMessageCommand({
-          QueueUrl: queueUrl,
-          ReceiptHandle: message.ReceiptHandle,
-        });
-        await sqsClient.send(deleteCommand);
+          const deleteCommand = new DeleteMessageCommand({
+            QueueUrl: queueUrl,
+            ReceiptHandle: message.ReceiptHandle,
+          });
+          await sqsClient.send(deleteCommand);
+        }
       }
     } catch (error) {
       console.error('SQS worker error:', error);
